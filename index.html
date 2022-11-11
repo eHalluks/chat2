@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="./src/style/style.css">
+<head>
+</head>
+<body>
+<div class="header">
+  <p>Create favourite collection</p>
+  <h1>Books Library</h1>
+</div>
+<div class="flex-container">
+  <div>
+    <form id="booksForm">
+      <table>
+        <tr>
+          <td colspan="3">
+            <h2>Filter book</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Book title:</td>
+          <td>
+            <input data-name="input-text" type="text">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="downMe">
+            <button type="submit">Search</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+    <form id="newBook">
+      <table>
+        <tr>
+          <td colspan="3">
+            <h2>Add book</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Title:</td>
+          <td><input data-name="addInputValue" type="text" required></td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Author:</td>
+          <td><input data-name="addInputValue" type="text" required></td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Category:</td>
+          <td><input data-name="addInputValue" type="text" required></td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Year:</td>
+          <td><input data-name="addInputValue" type="text" required></td>
+        </tr>
+        <tr>
+          <td class="add-Style-Td">Price:</td>
+          <td><input data-name="addInputValue" type="text" required></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="downMe">
+            <button type="submit">Add new book</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+<div class="grid-container" id="list">
+  <script type="module" src="./src/books.js"></script>
+</div>
+</body>
+</html>
