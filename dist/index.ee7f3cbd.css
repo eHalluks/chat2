@@ -1,6 +1,7 @@
 @import "https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap";
 .grid-container {
   width: 55%;
+  vertical-align: top;
   grid-template-columns: auto auto auto;
   margin: auto;
   padding: 10px;

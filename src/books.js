@@ -1,4 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
+import {isNaN, isNumber} from "lodash";
 console.log('Test start UI file');
 const newBook = document.querySelector('#newBook');
 const booksList = document.querySelector('#list');
@@ -809,15 +810,15 @@ code to remove duplicates from array
 let result = booksFromLocalDataBase.filter(function ({ title }) {
     return !this.has(title) && this.add(title);
 }, new Set)
-
 console.log(result);
 */
 //ES9 - if variable -eq (undefined || null || false) you can use operator ?? in re
 const bookLibrary = JSON.parse(localStorage.getItem('books')) ?? booksFromLocalDataBase;
 myFunAddIdToBook = () => {
     bookLibrary.forEach((element, i) => {
-        element.uniCode = uuidv4();
+        element.uniCode = nanoid();
         element.id = i+1;
+        element.price = Number(element.price).toFixed(2);
     });
 };
 myFunRenderBooks = booksOfList => {
@@ -832,43 +833,69 @@ myFunRenderBooks = booksOfList => {
                 <p><strong>Author: </strong>${category}</p>
                 <p><strong>Category: </strong>${author}</p>
                 <p><strong>Year: </strong>${year}</p>
-                <p><strong>Price: </strong>${price.toFixed(2)} PLN</p>
+                <p><strong>Price: </strong>${price} PLN</p>
             </li>
         </div>`
     });
 };
-myFunFilterBooks = event => {
-    event.preventDefault();
-    const foundBooks = bookLibrary.filter(({title}) => {
-        return title.toLowerCase().includes(inputText.value.toLowerCase());
-    })
-    setTimeout(() => {location.reload()}, 10000);
-    myFunRenderBooks(foundBooks);
-    inputText.value = '';
-    inputText.focus();
-};
-addNewBook = event => {
-    event.preventDefault();
-    addInputValue.forEach(element => {
-        tempArr.push(element.value);
-    })
-    const book = {
-        id: 0,
-        title: tempArr[0],
-        category: tempArr[1],
-        author: tempArr[2],
-        year :Number(tempArr[3]),
-        price: Number(tempArr[4]),
-    }
-    bookLibrary.push(book);
-    localStorage.setItem('books',JSON.stringify(bookLibrary));
-    tempArr.length = 0;
+    myFunFilterBooks = event => {
+        event.preventDefault();
+        const foundBooks = bookLibrary.filter(({title}) => {
+            return title.toLowerCase().includes(inputText.value.toLowerCase());
+        })
+        setTimeout(() => {location.reload()}, 10000);
+        myFunRenderBooks(foundBooks);
+        inputText.value = '';
+        inputText.focus();
+    };
+    addNewBook = event => {
+        event.preventDefault();
+        let test = 0;
+        addInputValue.forEach((element, i) => {
+            if(i === 3){
+                const testNumber1 = Number(element.value);
+                if(isNaN(testNumber1) === true){
+                    element.focus();
+                    element.select();
+                    return test = 1;
+                }
+            }else if(i === 4){
+                const testNumber2 = Number(element.value);
+                if(isNaN(testNumber2)){
+                    element.focus();
+                    element.select();
+                    return test = 2;
+                }
+            }
+        })
+        if(test === 1){
+            return alert("Year must be a number");
+        }else if(test ===2){
+            return alert("Price must be a number");
+        }
 
-    addInputValue.forEach(element => {
-        element.value = '';
-    });
+        addInputValue.forEach(element => {
+            tempArr.push(element.value);
+        })
+        const book = {
+            id: 0,
+            title: String(tempArr[0]).toUpperCase(),
+            category: tempArr[1],
+            author: tempArr[2],
+            year :Number(tempArr[3]),
+            price: Number(tempArr[4]).toFixed(2),
+        }
+        bookLibrary.push(book);
+        localStorage.setItem('books',JSON.stringify(bookLibrary));
+        tempArr.length = 0;
+
+        addInputValue.forEach(element => {
+            element.value = '';
+        });
+        alert("The book has been added. Please use filter and find your new book");
+        myFunRenderBooks(bookLibrary);
+    };
+
     myFunRenderBooks(bookLibrary);
-};
-myFunRenderBooks(bookLibrary);
-booksForm.addEventListener('submit', myFunFilterBooks);
-newBook.addEventListener('submit', addNewBook);
+    booksForm.addEventListener('submit', myFunFilterBooks);
+    newBook.addEventListener('submit', addNewBook);
